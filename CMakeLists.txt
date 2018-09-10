@@ -74,7 +74,6 @@ set(WARN_C_ONLY
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O2 ${WARN_C_CXX} ${WARN_CXX_ONLY}")
 
-
 include_directories("${PROJECT_SOURCE_DIR}/src")
 include_directories("${PROJECT_SOURCE_DIR}/src/thirdparty/googletest-release-1.8.1/googletest/include")
 

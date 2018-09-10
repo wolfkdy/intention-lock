@@ -74,4 +74,18 @@ TEST(MGL, MultiThread) {
     l5.unlock();
 }
 
+TEST(MGL, Starvation) {
+    MGLock l1, l2, l3;
+    EXPECT_EQ(l1.lock("something", LockMode::LOCK_IS, 1000), LockRes::LOCKRES_OK);
+    std::thread tmp([&l2]() {
+        EXPECT_EQ(l2.lock("something", LockMode::LOCK_X, 10000), LockRes::LOCKRES_OK);
+    });
+    std::this_thread::sleep_for(std::chrono::seconds(1));
+    EXPECT_EQ(l3.lock("something", LockMode::LOCK_IX, 1000), LockRes::LOCKRES_TIMEOUT);
+    l1.unlock();
+    tmp.join();
+    l2.unlock();
+    l3.unlock();
+}
+
 }
